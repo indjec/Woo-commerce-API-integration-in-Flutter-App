@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:woocommer_api/models/category.dart';
+import 'package:woocommer_api/pages/product.dart';
 import 'package:woocommer_api/services/api_service.dart';
 
 class WidgetCategories extends StatefulWidget {
@@ -76,35 +77,45 @@ class _WidgetCategoriesState extends State<WidgetCategories> {
         itemCount: categories.length,
         itemBuilder: (context, index) {
           var data = categories[index];
-          return Column(
-            children: [
-              Container(
-                margin: EdgeInsets.all(10),
-                width: 80.0,
-                height: 80.0,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        fit: BoxFit.fill, image: NetworkImage(data.image.url)),
-                    shape: BoxShape.circle,
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.black12,
-                          offset: Offset(0, 5),
-                          blurRadius: 15)
-                    ]),
-              ),
-              Row(
-                children: [
-                  Text(data.categoryName.toString()),
-                  Icon(
-                    Icons.keyboard_arrow_right,
-                    size: 14,
-                  ),
-                ],
-              ),
-            ],
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          ProductPage(categoryId: data.categoryId)));
+            },
+            child: Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.all(10),
+                  width: 80.0,
+                  height: 80.0,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          fit: BoxFit.fill,
+                          image: NetworkImage(data.image.url)),
+                      shape: BoxShape.circle,
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black12,
+                            offset: Offset(0, 5),
+                            blurRadius: 15)
+                      ]),
+                ),
+                Row(
+                  children: [
+                    Text(data.categoryName.toString()),
+                    Icon(
+                      Icons.keyboard_arrow_right,
+                      size: 14,
+                    ),
+                  ],
+                ),
+              ],
+            ),
           );
         },
       ),

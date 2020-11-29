@@ -75,13 +75,45 @@ class ApiService {
     return data;
   }
 
-  Future<List<Product>> getProducts(String tagname) async {
+  Future<List<Product>> getProducts({
+    String tagname,
+    int pageNumber,
+    int pageSize,
+    String srtSearch,
+    String categoryId,
+    String sortBy,
+    String sortOrder = "asc",
+  }) async {
     List<Product> data = new List<Product>();
 
     try {
+      String parameter = "";
+
+      if (srtSearch != null) {
+        parameter += "&search=$srtSearch";
+      }
+      if (pageSize != null) {
+        parameter += "&per_page=$pageSize";
+      }
+      if (pageNumber != null) {
+        parameter += "&page=$pageNumber";
+      }
+      if (tagname != null) {
+        parameter += "&tag=$tagname";
+      }
+      if (categoryId != null) {
+        parameter += "&category=$categoryId";
+      }
+      if (sortBy != null) {
+        parameter += "&orderby=$sortBy";
+      }
+      if (sortOrder != null) {
+        parameter += "&order=$sortOrder";
+      }
+
       String url = Config.url +
           Config.productsUrl +
-          "?consumer_key=${Config.key}&consumer_secret=${Config.secret}&tag=$tagname";
+          "?consumer_key=${Config.key}&consumer_secret=${Config.secret}${parameter.toString()}";
       var response = await Dio().get(url,
           options: new Options(
               headers: {HttpHeaders.contentTypeHeader: 'application/json'}));
