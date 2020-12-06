@@ -25,6 +25,8 @@ dependencies:
     sdk: flutter
   dio: ^3.0.10
   carousel_pro: ^1.0.0
+  carousel_slider:
+  flutter_html:
   provider: ^4.3.2+2
 
 
