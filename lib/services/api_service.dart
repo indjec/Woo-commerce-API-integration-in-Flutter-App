@@ -85,6 +85,9 @@ class ApiService {
     String sortOrder = "asc",
   }) async {
     List<Product> data = new List<Product>();
+    print("Page: $pageNumber");
+    print("Order: $sortOrder");
+
 
     try {
       String parameter = "";
@@ -114,6 +117,8 @@ class ApiService {
       String url = Config.url +
           Config.productsUrl +
           "?consumer_key=${Config.key}&consumer_secret=${Config.secret}${parameter.toString()}";
+        print(url);
+      // String url = "https://buymore-7643ec.ingress-baronn.easywp.com/wp-json/wc/v3/products?consumer_key=ck_6d94407ffd1c9dbf212edf86c117c7becefb930d&consumer_secret=cs_beeec2e29033bdb03411e9833b66866601b5dc0b&page=$pageNumber&order=$sortOrder";
       var response = await Dio().get(url,
           options: new Options(
               headers: {HttpHeaders.contentTypeHeader: 'application/json'}));
