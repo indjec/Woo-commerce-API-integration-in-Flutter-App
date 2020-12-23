@@ -1,5 +1,3 @@
-import 'package:flutter/widgets.dart';
-
 class LoginResponseModel {
   bool success;
   int statusCode;

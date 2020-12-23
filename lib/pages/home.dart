@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:woocommer_api/pages/cart_page.dart';
 import 'package:woocommer_api/pages/dashboard.dart';
 
 class HomePage extends StatefulWidget {
@@ -7,12 +8,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Widget> _widgetList = [
-    DashBoard(),
-    DashBoard(),
-    DashBoard(),
-    DashBoard()
-  ];
+  List<Widget> _widgetList = [DashBoard(), CartPage(), CartPage(), DashBoard()];
 
   int _index = 0;
 
@@ -51,7 +47,7 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.redAccent,
       automaticallyImplyLeading: false,
       title: Text(
-        'Grocery App',
+        'Ecommerce App',
         style: TextStyle(color: Colors.white),
       ),
       actions: [

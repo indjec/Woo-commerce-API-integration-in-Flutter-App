@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:woocommer_api/pages/base_page.dart';
 import 'package:woocommer_api/pages/home.dart';
 import 'package:woocommer_api/pages/login.dart';
 import 'package:woocommer_api/pages/product.dart';
+import 'package:woocommer_api/pages/product_details.dart';
 import 'package:woocommer_api/pages/signup.dart';
+import 'package:woocommer_api/provider/cart_provider.dart';
+import 'package:woocommer_api/provider/loader_provider.dart';
 import 'package:woocommer_api/provider/products_provider.dart';
 
 void main() {
@@ -18,6 +22,14 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => ProductProvider(),
           child: ProductPage(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => LoaderProvider(),
+          child: BasePage(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => CartProvider(),
+          child: ProductDetails(),
         )
       ],
       child: MaterialApp(

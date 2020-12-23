@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:woocommer_api/config.dart';
+import 'package:woocommer_api/models/cart_request_model.dart';
+import 'package:woocommer_api/models/cart_response_model.dart';
 import 'package:woocommer_api/models/category.dart';
 import 'package:woocommer_api/models/customer.dart';
 import 'package:woocommer_api/models/login.dart';
@@ -120,8 +122,6 @@ class ApiService {
       String url = Config.url +
           Config.productsUrl +
           "?consumer_key=${Config.key}&consumer_secret=${Config.secret}${parameter.toString()}";
-      print(url);
-      // String url = "https://buymore-7643ec.ingress-baronn.easywp.com/wp-json/wc/v3/products?consumer_key=ck_6d94407ffd1c9dbf212edf86c117c7becefb930d&consumer_secret=cs_beeec2e29033bdb03411e9833b66866601b5dc0b&page=$pageNumber&order=$sortOrder";
       var response = await Dio().get(url,
           options: new Options(
               headers: {HttpHeaders.contentTypeHeader: 'application/json'}));
@@ -133,5 +133,53 @@ class ApiService {
       print(e.message);
     }
     return data;
+  }
+
+  Future<CartResponseModel> addToCart(CartRequestModel model) async {
+    model.userId = int.parse(Config.userID);
+    CartResponseModel responseModel;
+
+    try {
+      var response = await Dio().post(Config.url + Config.addToCartURL,
+          data: model.toJson(),
+          options: new Options(headers: {
+            HttpHeaders.contentTypeHeader: "application/json",
+          }));
+
+      if (response.statusCode == 200) {
+        responseModel = CartResponseModel.fromJson(response.data);
+      }
+    } on DioError catch (e) {
+      if (e.response.statusCode == 404) {
+        print(e.response.statusCode);
+      } else {
+        print(e.message);
+        print(e.request);
+      }
+    }
+    return responseModel;
+  }
+
+  Future<CartResponseModel> getCartItems() async {
+    CartResponseModel responseModel;
+
+    try {
+      String url = Config.url +
+          Config.cartURL +
+          "?user_id=${Config.userID}&consumer_key=${Config.key}&consumer_secret=${Config.secret}";
+      print(url);
+      var response = await Dio().get(url,
+          options: new Options(headers: {
+            HttpHeaders.contentTypeHeader: "application/json",
+          }));
+
+      if (response.statusCode == 200) {
+        responseModel = CartResponseModel.fromJson(response.data);
+      }
+    } on DioError catch (e) {
+      print(e.response);
+    }
+
+    return responseModel;
   }
 }

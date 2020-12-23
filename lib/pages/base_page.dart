@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:woocommer_api/provider/loader_provider.dart';
 import 'package:woocommer_api/utils/progress_hud.dart';
 
 class BasePage extends StatefulWidget {
@@ -11,13 +13,17 @@ class BasePageState<T extends BasePage> extends State<T> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _buildAppBar(),
-      body: ProgressHUD(
-        child: pageUI(),
-        inAsyncCall: isApiCallProcess,
-        opacity: 0.3,
-      ),
+    return Consumer<LoaderProvider>(
+      builder: (context, loaderModel, child) {
+        return Scaffold(
+          appBar: _buildAppBar(),
+          body: ProgressHUD(
+            child: pageUI(),
+            inAsyncCall: loaderModel.isApiCallProcess,
+            opacity: 0.3,
+          ),
+        );
+      },
     );
   }
 
@@ -38,9 +44,12 @@ class BasePageState<T extends BasePage> extends State<T> {
           color: Colors.white,
         ),
         SizedBox(width: 10),
-        Icon(
-          Icons.shopping_cart,
-          color: Colors.white,
+        IconButton(
+          icon: Icon(
+            Icons.shopping_cart,
+            color: Colors.white,
+          ),
+          onPressed: null,
         ),
         SizedBox(width: 10),
       ],

@@ -11,7 +11,7 @@ class Product {
   List<Images> images;
   List<Categories> categories;
   List<Attributes> attributes;
-  List<int> relatedIds;
+  // List<int> relatedIds;
 
   Product(
       {this.categories,
@@ -25,7 +25,7 @@ class Product {
       this.shortDesc,
       this.sku,
       this.stockStatus,
-      this.relatedIds,
+      // this.relatedIds,
       this.attributes});
 
   Product.fromJson(Map<String, dynamic> json) {
@@ -38,7 +38,7 @@ class Product {
     regularPrice = json['regular_price'];
     salePrice = json['sale_price'];
     stockStatus = json['stock_status'];
-    relatedIds = json['cros_sell_ids'].cast<int>();
+    // relatedIds = json['cros_sell_ids'].cast<int>();
     if (json['categories'] != null) {
       categories = new List<Categories>();
       json['categories'].forEach((v) {

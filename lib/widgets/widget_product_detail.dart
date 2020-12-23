@@ -1,6 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:woocommer_api/models/cart_request_model.dart';
 import 'package:woocommer_api/models/product.dart';
+import 'package:woocommer_api/provider/cart_provider.dart';
+import 'package:woocommer_api/provider/loader_provider.dart';
 import 'package:woocommer_api/utils/custom_stepper.dart';
 import 'package:woocommer_api/utils/expand_text.dart';
 import 'package:woocommer_api/widgets/widgets_realted_products.dart';
@@ -10,6 +14,8 @@ class ProductDetailsWidget extends StatelessWidget {
   Product data;
   final CarouselController controller = new CarouselController();
   int qty = 0;
+
+  CartProducts cartProducts = new CartProducts();
 
   @override
   Widget build(BuildContext context) {
@@ -61,11 +67,21 @@ class ProductDetailsWidget extends StatelessWidget {
                       iconSize: 22,
                       value: this.qty,
                       onChanged: (value) {
-                        print(value);
+                        cartProducts.quantity = value;
                       },
                     ),
                     FlatButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Provider.of<LoaderProvider>(context, listen: false)
+                            .setLoadingStatus(true);
+                        var cartProvider =
+                            Provider.of<CartProvider>(context, listen: false);
+                        cartProducts.productId = data.id;
+                        cartProvider.addToCart(cartProducts, (val) {
+                          Provider.of<LoaderProvider>(context, listen: false)
+                              .setLoadingStatus(false);
+                        });
+                      },
                       child: Text(
                         'Add To Cart',
                         style: TextStyle(color: Colors.white),
@@ -86,10 +102,10 @@ class ProductDetailsWidget extends StatelessWidget {
                 SizedBox(
                   height: 10,
                 ),
-                WidgetRelatedProducts(
-                  labelName: "Related Products",
-                  products: this.data.relatedIds,
-                )
+                // WidgetRelatedProducts(
+                //   labelName: "Related Products",
+                //   products: this.data.relatedIds,
+                // )
               ],
             ),
           ],

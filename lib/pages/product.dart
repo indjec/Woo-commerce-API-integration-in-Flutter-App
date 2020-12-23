@@ -4,7 +4,6 @@ import 'package:woocommer_api/models/product.dart';
 import 'package:woocommer_api/models/sortby.dart';
 import 'package:woocommer_api/pages/base_page.dart';
 import 'package:woocommer_api/provider/products_provider.dart';
-import 'package:woocommer_api/services/api_service.dart';
 import 'package:woocommer_api/widgets/widget_product_cart.dart';
 
 // class SortBy {
